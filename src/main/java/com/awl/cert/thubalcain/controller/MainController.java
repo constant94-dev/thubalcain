@@ -24,4 +24,9 @@ public class MainController {
     public String signIn(){
         return "html/sign-in.html";
     }
+
+    @GetMapping("/about")
+    public String about(){
+        return "html/about.html";
+    }
 }

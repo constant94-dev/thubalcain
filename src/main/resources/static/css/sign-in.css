@@ -3,6 +3,10 @@ html, body {
     margin: 0;
 }
 
+.bd-example {
+    margin: 3rem 0 1rem 0;
+}
+
 .form-signin {
     max-width: 330px;
     padding: 15px;
