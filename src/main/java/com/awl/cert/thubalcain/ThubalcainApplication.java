@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ThubalcainApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ThubalcainApplication.class, args);
-		System.out.println("Hello World!");
+		System.out.println("Start App!");
 	}
 
 }
