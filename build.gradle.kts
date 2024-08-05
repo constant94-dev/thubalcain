@@ -25,6 +25,8 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("com.google.api-client:google-api-client:2.6.0")
+
 
 	compileOnly("org.projectlombok:lombok")
 	compileOnly("com.google.code.gson:gson")
