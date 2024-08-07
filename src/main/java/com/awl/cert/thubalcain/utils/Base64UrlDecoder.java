@@ -1,0 +1,28 @@
+package com.awl.cert.thubalcain.utils;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
+public class Base64UrlDecoder {
+    private static String base64UrlToBase64(String base64Url) {
+        String base64 = base64Url
+                .replace("-", "+")
+                .replace("_", "/");
+
+        // 패딩이 누락 되었을 경우 추가
+        int paddingLength = (4 - (base64.length() % 4)) % 4;
+        base64 += "=".repeat(paddingLength);
+
+        return base64;
+    }
+
+    public static String decodeBase64Url(String base64Url) {
+        String base64 = base64UrlToBase64(base64Url);
+
+        System.out.println(base64);
+
+        byte[] decoded = Base64.getDecoder().decode(base64);
+
+        return new String(decoded, StandardCharsets.UTF_8);
+    }
+}

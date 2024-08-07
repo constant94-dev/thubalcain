@@ -1,8 +1,7 @@
 package com.awl.cert.thubalcain.service;
 
-import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
-import com.google.api.client.auth.oauth2.BearerToken;
-import com.google.api.client.auth.oauth2.ClientParametersAuthentication;
+import com.awl.cert.thubalcain.utils.Base64UrlDecoder;
+import com.google.api.client.auth.oauth2.*;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -17,6 +16,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Base64;
 
 @Service
 public class GoogleService {
@@ -30,28 +30,55 @@ public class GoogleService {
     private String TOKEN_URI;
     @Value("${google-redirect-uri}")
     private String REDIRECT_URI;
-    @Value("${google-scope}")
-    private String SCOPE;
 
+    private AuthorizationCodeFlow codeFlow;
 
     public RedirectView goGoogleOAuth() {
-        String uri = AUTHORIZE_URI+"?redirect_uri="+REDIRECT_URI+"&response_type=code&scope="+SCOPE+"&client_id="+CLIENT_ID+
-                "&access_type=offline";
-
-        return new RedirectView(uri);
-    }
-
-    public RedirectView loginCallback() {
         try {
-            AuthorizationCodeFlow codeFlow = initializeFlow();
+            codeFlow = initializeFlow();
+
+            String authorizaionUrl = codeFlow.newAuthorizationUrl()
+                    .setRedirectUri(REDIRECT_URI)
+                    .build();
+
+            return new RedirectView(authorizaionUrl);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public RedirectView loginCallback(String code) {
+        System.out.println("redirect after code: "+code);
+        try {
+            TokenResponse response = codeFlow.newTokenRequest(code)
+                    .setRedirectUri(REDIRECT_URI)
+                    .setGrantType("authorization_code")
+                    .execute();
+
+            System.out.println("response body: " + response);
+
+            String userId = response.get("id_token").toString();
+            String[] jwtParts = userId.split("\\.");
+            if (jwtParts.length == 3) {
+                // 헤더 디코딩
+                String header = Base64UrlDecoder.decodeBase64Url(jwtParts[0]);
+                System.out.println("Header: " + header);
+
+                // 페이로드 디코딩
+                String payload = Base64UrlDecoder.decodeBase64Url(jwtParts[1]);
+                System.out.println("Payload: " + payload);
+            }
+        } catch (TokenResponseException e) {
+            System.err.println("Token exchange failed: " + e.getDetails());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         return new RedirectView("html/index.html");
     }
 
     private AuthorizationCodeFlow initializeFlow() throws IOException {
-        AuthorizationCodeFlow test = new AuthorizationCodeFlow.Builder(
+        return new AuthorizationCodeFlow.Builder(
                 BearerToken.authorizationHeaderAccessMethod(),
                 new NetHttpTransport(),
                 GsonFactory.getDefaultInstance(),
@@ -61,10 +88,7 @@ public class GoogleService {
                 AUTHORIZE_URI
         )
                 .setScopes(Arrays.asList("email","profile"))
-                .setDataStoreFactory(new FileDataStoreFactory(new File("tokens")))
                 .build();
-        return null;
     }
-
 
 }

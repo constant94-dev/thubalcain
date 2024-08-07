@@ -19,8 +19,8 @@ public class LoginController {
         return kakaoService.goKakaoOAuth();
     }
 
-    @RequestMapping("/login-callback")
-    public RedirectView loginCallback(@RequestParam("code") String code) {
+    @RequestMapping("/kakao-login-callback")
+    public RedirectView kakaoLoginCallback(@RequestParam("code") String code) {
         return kakaoService.loginCallback(code);
     }
 
@@ -30,7 +30,7 @@ public class LoginController {
     }
 
     @RequestMapping("/google-login-callback")
-    public RedirectView loginCallback(){
-        return googleService.loginCallback();
+    public RedirectView googleLoginCallback(@RequestParam("code") String code){
+        return googleService.loginCallback(code);
     }
 }
