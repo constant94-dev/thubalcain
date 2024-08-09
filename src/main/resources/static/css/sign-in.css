@@ -4,10 +4,51 @@ html, body {
 }
 
 .bd-example {
-    margin: 3rem 0 1rem 0;
+    margin: 1rem 0 1rem 0;
 }
 
-.form-signin {
-    max-width: 330px;
-    padding: 15px;
+/*
+    iPhone XE: 375x667
+    Galaxy S20 Ultra: 412x915
+    iPad Pro: 1024x1366
+*/
+@media (max-width: 375px) {
+    .kakao-logo,
+    .google-logo {
+        margin-bottom: 10px;
+        width: 300px;
+        height: 45px;
+    }
+
+    .recaptcha {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 412px) and (min-width: 376px) {
+    .kakao-logo,
+    .google-logo {
+        margin-bottom: 10px;
+        width: 300px;
+        height: 45px;
+    }
+
+    .recaptcha {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media (min-width: 413px) {
+    .kakao-logo,
+    .google-logo {
+        width: 400px;
+        height: 60px;
+    }
+
+    .recaptcha {
+        display: flex;
+        justify-content: center;
+    }
 }

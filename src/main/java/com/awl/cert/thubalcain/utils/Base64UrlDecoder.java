@@ -1,8 +1,11 @@
 package com.awl.cert.thubalcain.utils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
+@Slf4j
 public class Base64UrlDecoder {
     private static String base64UrlToBase64(String base64Url) {
         String base64 = base64Url
@@ -13,7 +16,7 @@ public class Base64UrlDecoder {
         int paddingLength = (4 - (base64.length() % 4)) % 4;
         base64 += "=".repeat(paddingLength);
 
-        System.out.println("패딩 추가 로직 후 결과: "+ base64);
+        log.info("패딩 추가 로직 후 결과: {}", base64);
         return base64;
     }
 
@@ -24,4 +27,6 @@ public class Base64UrlDecoder {
 
         return new String(decoded, StandardCharsets.UTF_8);
     }
+
+    protected Base64UrlDecoder() {}
 }

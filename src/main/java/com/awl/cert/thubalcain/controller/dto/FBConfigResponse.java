@@ -1,11 +1,8 @@
 package com.awl.cert.thubalcain.controller.dto;
 
-import com.awl.cert.thubalcain.auth.FirebaseConfig;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import lombok.Value;
+import lombok.*;
 
+@Getter
 @Builder
 public class FBConfigResponse {
     private String apiKey;

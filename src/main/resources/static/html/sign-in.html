@@ -12,40 +12,60 @@
     <div class="bd-example-snippet bd-code-snippet">
         <div class="bd-example">
             <div class="container">
-                <form>
-                    <div class="row mb-3">
-                        <h1 class="col-md-8 h3 fw-normal">Please sign in</h1>
-                        <a href="/" class="col-md-4 nav-link link-dark px-2 d-flex justify-content-center align-items-center">
-                            <small class="text-muted">Home</small>
-                        </a>
-                    </div>
+                <div class="row mb-3">
+                    <h1 class="col-md-8 h3 fw-normal">Please sign in</h1>
+                    <a href="/" class="col-md-4 nav-link link-dark px-2 d-flex justify-content-center align-items-center">
+                        <small class="text-muted">Home</small>
+                    </a>
+                </div>
+<!--                <form action="/api/firebase/phone" method="get">-->
                     <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                        <label for="floatingInput">Email address</label>
+                        <input type="tel" name="phoneNumber" class="form-control" id="floatingPhoneNumber" placeholder="010-1234-5678">
+                        <label for="floatingPhoneNumber">Phone number</label>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                        <label for="floatingPassword">Password</label>
-                    </div>
-                    <div class="checkbox mb-3 text-center">
-                        <label>
-                            <input type="checkbox" value="remember-me">
-                            Remember me
-                        </label>
-                    </div>
-                    <div class="bd-example text-center">
-                        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-                        <a href="/kakao-login" class="w-100 btn btn-lg">
-                                <img src="/img/kakao_login_medium_wide.png" alt="Login With Kakao">
-                        </a>
-                        <a href="/google-login" class="w-100 btn btn-lg">
-                            <img src="/img/google_web_light_SI@2x.png" alt="Login With Google">
-                        </a>
-                        <p class="text-muted">º 2024 -</p>
-                    </div>
-                </form>
+                    <button class="w-100 btn btn-lg btn-primary" id="phoneLogin">전화번호 로그인</button>
+<!--                </form>-->
+
+                <div class="bd-example text-center">
+                    <a href="/kakao-login">
+                        <img src="/img/kakao_login_medium_wide.png" alt="Login With Kakao" class="kakao-logo">
+                    </a>
+
+                </div>
+                <div class="bd-example text-center">
+                    <a href="/google-login">
+                        <img src="/img/google_web_light_SI@2x.png" alt="Login With Google" class="google-logo">
+                    </a>
+                </div>
+
+
+                <p class="text-muted text-center">º 2024 -</p>
+
+                <div class="recaptcha">
+                    <div id="recaptcha-container"></div>
+                </div>
+
             </div>
         </div>
     </div>
+
+    <script type="module">
+        import {initializeFirebase} from "../js/init-firebase.js";
+
+        initializeFirebase().then(() => {
+            import('../js/auth-phone-signin.js').then(({getPhoneNumberFromUserInput}) => {
+                console.log("auth-phone-signin.js run!");
+                document.getElementById("phoneLogin").addEventListener('click', () => {
+                    getPhoneNumberFromUserInput();
+                });
+            }).catch(error => {
+                console.error('Error loading auth-phone.js:', error);
+            });
+        }).catch(error => {
+            console.error('Error initializing Firebase:', error);
+        });
+    </script>
+<!--    <script defer type="module" src="../js/init-firebase.js"></script>-->
+<!--    <script defer type="module" src="../js/auth-phone-signin.js"></script>-->
 </body>
 </html>
