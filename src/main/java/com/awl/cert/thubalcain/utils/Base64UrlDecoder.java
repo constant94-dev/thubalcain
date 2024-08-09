@@ -13,13 +13,12 @@ public class Base64UrlDecoder {
         int paddingLength = (4 - (base64.length() % 4)) % 4;
         base64 += "=".repeat(paddingLength);
 
+        System.out.println("패딩 추가 로직 후 결과: "+ base64);
         return base64;
     }
 
     public static String decodeBase64Url(String base64Url) {
         String base64 = base64UrlToBase64(base64Url);
-
-        System.out.println(base64);
 
         byte[] decoded = Base64.getDecoder().decode(base64);
 

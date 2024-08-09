@@ -35,6 +35,8 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation(platform("org.junit:junit-bom:5.10.3"))
+	testImplementation("org.junit.jupiter:junit-jupiter")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
