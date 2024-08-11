@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sign In</title>
     <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+    <!-- Material Design Theming -->
+    <link
+            rel="stylesheet"
+            href="https://code.getmdl.io/1.1.3/material.orange-indigo.min.css"
+    />
+    <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+
+    <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+
     <link rel="stylesheet" href="/css/sign-in.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
@@ -34,38 +46,144 @@
                 </div>
                 <div class="bd-example text-center">
                     <a href="/google-login">
-                        <img src="/img/google_web_light_SI@2x.png" alt="Login With Google" class="google-logo">
+                        <img src="/img/google_web_light_SI@1x.png" alt="Login With Google" class="google-logo">
                     </a>
                 </div>
 
 
                 <p class="text-muted text-center">º 2024 -</p>
 
-                <div class="recaptcha">
-                    <div id="recaptcha-container"></div>
-                </div>
-
             </div>
         </div>
     </div>
 
-    <script type="module">
-        import {initializeFirebase} from "../js/init-firebase.js";
+    <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <!-- Header section containing title -->
+        <header
+                class="mdl-layout__header mdl-color-text--white mdl-color--light-blue-700"
+        >
+            <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
+                <div
+                        class="mdl-layout__header-row mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--8-col-desktop"
+                >
+                    <a href="/"><h3>Firebase Authentication</h3></a>
+                </div>
+            </div>
+        </header>
 
-        initializeFirebase().then(() => {
-            import('../js/auth-phone-signin.js').then(({getPhoneNumberFromUserInput}) => {
-                console.log("auth-phone-signin.js run!");
-                document.getElementById("phoneLogin").addEventListener('click', () => {
-                    getPhoneNumberFromUserInput();
-                });
-            }).catch(error => {
-                console.error('Error loading auth-phone.js:', error);
-            });
-        }).catch(error => {
-            console.error('Error initializing Firebase:', error);
-        });
-    </script>
-<!--    <script defer type="module" src="../js/init-firebase.js"></script>-->
-<!--    <script defer type="module" src="../js/auth-phone-signin.js"></script>-->
+        <main class="mdl-layout__content mdl-color--grey-100">
+            <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
+                <!-- Container for the demo -->
+                <div
+                        class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop"
+                >
+                    <div
+                            class="mdl-card__title mdl-color--light-blue-600 mdl-color-text--white"
+                    >
+                        <h2 class="mdl-card__title-text">
+                            Phone number authentication with visible ReCaptcha
+                        </h2>
+                    </div>
+                    <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                        <p>Sign in with your phone number below.</p>
+
+                        <form id="sign-in-form" action="#">
+                            <!-- Input to enter the phone number -->
+                            <div
+                                    class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
+                            >
+                                <input
+                                        class="mdl-textfield__input"
+                                        type="text"
+                                        pattern="\+[0-9\s\-\(\)]+"
+                                        id="phone-number"
+                                />
+                                <label class="mdl-textfield__label" for="phone-number"
+                                >Enter your phone number...</label
+                                >
+                                <span class="mdl-textfield__error"
+                                >Input is not an international phone number!</span
+                                >
+                            </div>
+
+                            <!-- Container to display the re-captcha check -->
+                            <div id="recaptcha-container"></div>
+
+                            <!-- Button that handles sign-in -->
+                            <input
+                                    type="submit"
+                                    disabled
+                                    class="mdl-button mdl-js-button mdl-button--raised"
+                                    id="sign-in-button"
+                                    value="Sign-in"
+                            />
+                        </form>
+
+                        <!-- Button that handles sign-out -->
+                        <button
+                                class="mdl-button mdl-js-button mdl-button--raised"
+                                id="sign-out-button"
+                        >
+                            Sign-out
+                        </button>
+
+                        <form id="verification-code-form" action="#">
+                            <!-- Input to enter the verification code -->
+                            <div
+                                    class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
+                            >
+                                <input
+                                        class="mdl-textfield__input"
+                                        type="text"
+                                        id="verification-code"
+                                />
+                                <label class="mdl-textfield__label" for="verification-code"
+                                >Enter the verification code...</label
+                                >
+                            </div>
+
+                            <!-- Button that triggers code verification -->
+                            <input
+                                    type="submit"
+                                    class="mdl-button mdl-js-button mdl-button--raised"
+                                    id="verify-code-button"
+                                    value="Verify Code"
+                            />
+                            <!-- Button to cancel code verification -->
+                            <button
+                                    class="mdl-button mdl-js-button mdl-button--raised"
+                                    id="cancel-verify-code-button"
+                            >
+                                Cancel
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Container for the sign in status and user info -->
+                <div
+                        class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop"
+                >
+                    <div
+                            class="mdl-card__title mdl-color--light-blue-600 mdl-color-text--white"
+                    >
+                        <h2 class="mdl-card__title-text">User sign-in status</h2>
+                    </div>
+                    <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                        <!-- Container where we'll display the user details -->
+                        <div class="user-details-container">
+                            Firebase sign-in status:
+                            <span id="sign-in-status">Unknown</span>
+                            <div>Firebase auth <code>currentUser</code> object value:</div>
+                            <pre><code id="account-details">null</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script type="module" src="../js/auth/phone-visible.js"></script>
 </body>
 </html>

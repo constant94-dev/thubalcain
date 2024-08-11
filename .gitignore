@@ -78,3 +78,4 @@ Temporary Items
 third-party
 http
 style
+src/main/resources/static/js/auth/config-firebase.js
