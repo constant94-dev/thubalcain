@@ -1,4 +1,4 @@
-## Developing
+## Status: Developing
 
 ### 서비스 구조
 <strong> 초기 구상 (작업중...) </strong>
