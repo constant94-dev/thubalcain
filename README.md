@@ -29,6 +29,8 @@
   - 마이데이터 화면
   - About 화면
 - 회원가입/로그인 기능 구현
+  - kakao, google
+  - firebase 전화번호
 - 사용자 정보 CRUD
 
 <strong> 2차 </strong>

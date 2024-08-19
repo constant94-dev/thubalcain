@@ -39,7 +39,7 @@ function onSignInSubmit(e) {
         window.signingIn = true;
         updateSignInButtonUI();
 
-        const phoneNumber = getPhoneNumberFromUserInput();
+        const phoneNumber = "+82"+getPhoneNumberFromUserInput();
         const appVerifier = window.recaptchaVerifier;
 
         signInWithPhoneNumber(auth, phoneNumber, appVerifier)
@@ -143,20 +143,15 @@ function getCodeFromUserInput() {
 * ReCaptcha가 OK 상태일 때 true 반환
 */
 function isCaptchaOK() {
-    console.log('왔니?');
-    console.log(grecaptcha);
-    console.log(window.recaptchaWidgetId);
     if (
         typeof grecaptcha !== 'undefined' &&
         window.recaptchaWidgetId !== null
     ) {
-        console.log('ture');
         const recaptchaResponse = grecaptcha.getResponse(window.recaptchaWidgetId);
         console.log('recaptchaResponse: '+recaptchaResponse);
         console.log('recaptchaResponse 실제 반환 값: '+Boolean(recaptchaResponse !== ''));
         return Boolean(recaptchaResponse !== '');
     }
-    console.log('false');
     return false;
 }
 
@@ -165,7 +160,7 @@ function isCaptchaOK() {
 */
 function isPhoneNumberValid() {
     console.log('isPhoneNumberValid 함수 호출!');
-    const pattern = /^\+[0-9\s\-\(\)]+$/;
+    const pattern = /^\[0-9\s\-\(\)]+$/;
     const phoneNumber = getPhoneNumberFromUserInput();
     console.log('사용자가 입력한 폰번호: ' + phoneNumber);
     return phoneNumber.search(pattern) !== -1;
