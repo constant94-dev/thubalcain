@@ -24,7 +24,7 @@ public class JwtsServiceImpl implements JwtsService {
     /**
      * 토큰 요청 전 인가코드 발급
      * 
-     * @author aaron
+     * @author ethan
      * @params password
      * @return cipher string
      **/
@@ -43,7 +43,7 @@ public class JwtsServiceImpl implements JwtsService {
     /**
      * 인가코드를 바탕으로 토큰 생성
      *
-     * @author aaron
+     * @author ethan
      * @params athorizae code
      * @return Encrypted JWT
      **/
