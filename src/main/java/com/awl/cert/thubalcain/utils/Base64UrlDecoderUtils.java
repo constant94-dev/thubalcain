@@ -6,7 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 @Slf4j
-public class Base64UrlDecoder {
+public class Base64UrlDecoderUtils {
     private static String base64UrlToBase64(String base64Url) {
         String base64 = base64Url
                 .replace("-", "+")
@@ -28,5 +28,5 @@ public class Base64UrlDecoder {
         return new String(decoded, StandardCharsets.UTF_8);
     }
 
-    protected Base64UrlDecoder() {}
+    protected Base64UrlDecoderUtils() {}
 }

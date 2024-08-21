@@ -1,6 +1,6 @@
 package com.awl.cert.thubalcain.controller.api;
 
-import com.awl.cert.thubalcain.controller.api.dto.UpdateElementDTO;
+import com.awl.cert.thubalcain.controller.api.dto.UpdateRedisDTO;
 import com.awl.cert.thubalcain.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,7 @@ public class RedisController {
     }
 
     @PutMapping("/update")
-    public String update(@RequestBody UpdateElementDTO updateDTO) {
+    public String update(@RequestBody UpdateRedisDTO updateDTO) {
         redisService.updateValue(updateDTO.getKey(), updateDTO.getValue());
         return "Updated";
     }

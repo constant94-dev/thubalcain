@@ -27,6 +27,10 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.google.api-client:google-api-client:2.6.0")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
+	runtimeOnly("io.jsonwebtoken:jjwt-gson:0.12.6")
 
 
 	compileOnly("org.projectlombok:lombok")
@@ -38,6 +42,7 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation(platform("org.junit:junit-bom:5.10.3"))
 	testImplementation("org.junit.jupiter:junit-jupiter")
+	testImplementation("org.projectlombok:lombok")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 

@@ -1,22 +1,16 @@
 package com.awl.cert.thubalcain.service;
 
-import com.awl.cert.thubalcain.utils.Base64UrlDecoder;
+import com.awl.cert.thubalcain.utils.Base64UrlDecoderUtils;
 import com.google.api.client.auth.oauth2.*;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.client.util.store.FileDataStoreFactory;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Base64;
 
 @Service
 public class GoogleService {
@@ -61,11 +55,11 @@ public class GoogleService {
             String[] jwtParts = userId.split("\\.");
             if (jwtParts.length == 3) {
                 // 헤더 디코딩
-                String header = Base64UrlDecoder.decodeBase64Url(jwtParts[0]);
+                String header = Base64UrlDecoderUtils.decodeBase64Url(jwtParts[0]);
                 System.out.println("Header: " + header);
 
                 // 페이로드 디코딩
-                String payload = Base64UrlDecoder.decodeBase64Url(jwtParts[1]);
+                String payload = Base64UrlDecoderUtils.decodeBase64Url(jwtParts[1]);
                 System.out.println("Payload: " + payload);
             }
         } catch (TokenResponseException e) {
