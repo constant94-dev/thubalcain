@@ -1,6 +1,7 @@
 package com.awl.cert.thubalcain.service.impl;
 
 import com.awl.cert.thubalcain.service.JwtsService;
+import com.awl.cert.thubalcain.service.dto.UserDTO;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.AeadAlgorithm;
 import io.jsonwebtoken.security.KeyAlgorithm;
@@ -47,7 +48,7 @@ public class JwtsServiceImpl implements JwtsService {
      * @return Encrypted JWT
      **/
     @Override
-    public String createJWE(String code) {
+    public String createJWE(String code, UserDTO userDTO) {
         return Jwts.builder()
                 .header()
                 .add(createHeader())

@@ -1,7 +1,7 @@
-package com.awl.cert.thubalcain.service.impl;
+package com.awl.cert.thubalcain.service;
 
-import com.awl.cert.thubalcain.service.JwtsService;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -14,7 +14,7 @@ import java.security.NoSuchAlgorithmException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-class JwtsServiceImplTest {
+class JwtsServiceTest {
     @Mock
     private JwtsService jwtsService;
 
@@ -28,5 +28,9 @@ class JwtsServiceImplTest {
         String expected = "authorizecode";
 
         assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    void createJWE() {
     }
 }
