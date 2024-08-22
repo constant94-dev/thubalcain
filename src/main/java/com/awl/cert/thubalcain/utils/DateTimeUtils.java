@@ -26,7 +26,7 @@ public class DateTimeUtils {
      * @params 발급 날짜
      * @return 토큰 만료 날짜 반환
      **/
-    public static LocalDateTime generateExpiration(LocalDateTime issuedAt) {
+    public static LocalDateTime generateExpiredAt(LocalDateTime issuedAt) {
         int year = issuedAt.getYear();
         int month = issuedAt.getMonthValue();
         int day = issuedAt.getDayOfMonth();
@@ -44,7 +44,7 @@ public class DateTimeUtils {
         int daysInLast = yearMonth.lengthOfMonth(); // 해당 달의 마지막 day 확인
         /*
          * if 이번 달 day > 다음 달 마지막 day
-         *     then 다음달 마지막 day가 만료시점 Day로 설정
+         *     then 다음달 마지막 day가 만료시점 day로 설정
          * */
         if (day > daysInLast) {
             return LocalDateTime.of(year, nextMonth, daysInLast, hour, min, sec);

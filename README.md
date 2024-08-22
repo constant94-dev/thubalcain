@@ -13,7 +13,7 @@
 
 <strong> 2차 구상 (작업중...) </strong>
 
-- JWT 라이브러리 활용한 인증 API 개발
+- JWT 오픈소스 활용한 인증 API 개발
   - jjwt(Java JWT)
 - JMeter 부하 테스트
 - 분산 서버에서 사용자 인증 관리

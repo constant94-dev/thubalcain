@@ -22,8 +22,8 @@ class DateTimeUtilsTest {
         LocalDateTime now = LocalDateTime.now();
 
         assertThat(issuedAtTime).matches("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}");
-        assertThat(issuedAt).
-                isAfterOrEqualTo(now.minusSeconds(1)) // 발급된 시간이 현재 시간과 동일하거나 이후여야 함
+        assertThat(issuedAt)
+                .isAfterOrEqualTo(now.minusSeconds(1)) // 발급된 시간이 현재 시간과 동일하거나 이후여야 함
                 .isBefore(now.plusSeconds(1)); // 1초 이내에 시간만 허용 함
     }
 
@@ -39,8 +39,8 @@ class DateTimeUtilsTest {
             LocalDateTime inCompleteMonthTime, LocalDateTime completeMonthTime,
             LocalDateTime inCompleteDayTime, LocalDateTime completeDayTime
                             ) {
-        LocalDateTime expiredAtChangeMonth = DateTimeUtils.generateExpiration(inCompleteMonthTime);
-        LocalDateTime expiredAtChangeDay = DateTimeUtils.generateExpiration(inCompleteDayTime);
+        LocalDateTime expiredAtChangeMonth = DateTimeUtils.generateExpiredAt(inCompleteMonthTime);
+        LocalDateTime expiredAtChangeDay = DateTimeUtils.generateExpiredAt(inCompleteDayTime);
 
         assertThat(expiredAtChangeMonth).isEqualTo(completeMonthTime);
         assertThat(expiredAtChangeDay).isEqualTo(completeDayTime);

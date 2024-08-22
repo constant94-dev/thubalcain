@@ -69,7 +69,7 @@ public class JwtsServiceImpl implements JwtsService {
         Map<String, String> claimByToken = new HashMap<>();
 
         LocalDateTime issuedAt = DateTimeUtils.generateIssuedAt();
-        LocalDateTime expiredAt = DateTimeUtils.generateExpiration(issuedAt);
+        LocalDateTime expiredAt = DateTimeUtils.generateExpiredAt(issuedAt);
 
         claimByToken.put("iss", requestTokenDTO.getEmail()); // 발급자
         claimByToken.put("sub", requestTokenDTO.getName()); // 제목
