@@ -1,13 +1,15 @@
 package com.awl.cert.thubalcain.utils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.crypto.*;
 import java.security.*;
 import java.security.spec.ECGenParameterSpec;
 import java.util.Base64;
 
+@Slf4j
 public class CipherUtils {
-    static Cipher cipher;
-
+    private static Cipher cipher;
 
     /**
      * KeyGenerator 사용해 128비트 길이의 대칭키 생성 기능
@@ -57,7 +59,6 @@ public class CipherUtils {
     /**
      * Cipher 사용해 디코딩 byte[] 생성 후 평문 메시지 생성 기능
      *
-     *
      * @author ethan
      * @params 암호화 된 메시지, 대칭 키
      * @return 디코딩 된 평문 메시지 반환
@@ -73,7 +74,6 @@ public class CipherUtils {
     /**
      * MessageDigest 사용해 byte[] 생성 후 Base64 인코딩 기능
      *
-     *
      * @author ethan
      * @params 해싱할 코드 값
      * @return SHA-512 해싱 후 Base64 인코딩 값 반환
@@ -86,5 +86,5 @@ public class CipherUtils {
         return Base64.getEncoder().encodeToString(bytes);
     }
 
-    private CipherUtils(){}
+    protected CipherUtils(){}
 }

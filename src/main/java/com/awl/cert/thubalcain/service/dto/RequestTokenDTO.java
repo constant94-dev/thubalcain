@@ -5,8 +5,8 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class UserDTO {
+public class RequestTokenDTO {
     private String email;
     private String name;
-    private String tel;
+    private String aud;
 }
