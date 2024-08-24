@@ -9,11 +9,12 @@ import io.jsonwebtoken.security.KeyAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.Password;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.Map;
 
 import static com.awl.cert.thubalcain.utils.CipherUtils.hashWithSHA512;
@@ -23,7 +24,9 @@ import static com.awl.cert.thubalcain.utils.CipherUtils.hashWithSHA512;
 public class JwtsServiceImpl implements JwtsService {
     private final KeyAlgorithm<Password, Password> ALG = Jwts.KEY.PBES2_HS512_A256KW;
     private final AeadAlgorithm ENC = Jwts.ENC.A256CBC_HS512;
-    
+    @Value("${token.issuer}")
+    private String iss;
+
     /**
      * 토큰 요청 전 인가코드 발급
      * 
@@ -54,8 +57,8 @@ public class JwtsServiceImpl implements JwtsService {
     public String createJWE(String code, RequestTokenDTO requestTokenDTO) {
         return Jwts.builder()
                 .header()
-                .add(createHeader())
-                .and()
+                    .add(createHeader())
+                    .and()
                 .claims(createClaim(requestTokenDTO))
                 .encryptWith(createPassword(code), ALG, ENC)
                 .compact();
@@ -66,21 +69,25 @@ public class JwtsServiceImpl implements JwtsService {
     }
 
     private Map<String, ?> createClaim(RequestTokenDTO requestTokenDTO) {
-        Map<String, String> claimByToken = new HashMap<>();
-
         LocalDateTime issuedAt = DateTimeUtils.generateIssuedAt();
         LocalDateTime expiredAt = DateTimeUtils.generateExpiredAt(issuedAt);
+        Date issuedDate = DateTimeUtils.convertLocalDateTimeToDate(issuedAt);
+        Date expireDate = DateTimeUtils.convertLocalDateTimeToDate(expiredAt);
+        Date notBefore = DateTimeUtils.generateNotBeforeDate();
 
-        claimByToken.put("iss", requestTokenDTO.getEmail()); // 발급자
-        claimByToken.put("sub", requestTokenDTO.getName()); // 제목
-        claimByToken.put("aud", requestTokenDTO.getAud()); // 대상
-        claimByToken.put("iat", issuedAt.toString()); // 발급 시점
-        claimByToken.put("exp", expiredAt.toString()); // 만료 시점
-
-        return claimByToken;
+        return Jwts.claims()
+                .issuer(iss) // 발급자
+                .subject(requestTokenDTO.getName()) // 제목
+                .audience().add(requestTokenDTO.getAud()).and() // 대상(공개 범위)
+                .expiration(expireDate) // 만료 날짜
+                .notBefore(notBefore) // JWT가 유효해지는 시점 (이 날짜 이전에는 JWT가 유효하지 않음)
+                .issuedAt(issuedDate) // 발급 날짜
+                .build();
     }
 
     private Map<String, ?> createHeader() {
-        return null;
+        return Jwts.header()
+                .contentType("application/json")
+                .build();
     }
 }

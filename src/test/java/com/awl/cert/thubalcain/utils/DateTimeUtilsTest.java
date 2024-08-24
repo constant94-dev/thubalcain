@@ -4,16 +4,29 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class DateTimeUtilsTest {
 
-    @Test
+    private static Object[][] provideDateTimeForConversion() {
+        LocalDateTime localDateTime = LocalDateTime.parse("2024-08-24T10:21:23"); // 문자열을 LocalDateTime으로 변환
+        Date expectedDate = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()); // Date 클래스로 변환
+
+        return new Object[][] {
+                { localDateTime, expectedDate }
+        };
+    }
+
     @DisplayName("발급 시점 LocalDateTime 생성 확인")
+    @Test
     void generateIssuedAt() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
@@ -35,7 +48,7 @@ class DateTimeUtilsTest {
             "2024-08-23T06:58:21, 2024-09-23T06:58:21, " +
             "2024-09-30T06:58:21, 2024-10-30T06:58:21"
     })
-    void generateExpiration(
+    void generateExpireAt(
             LocalDateTime inCompleteMonthTime, LocalDateTime completeMonthTime,
             LocalDateTime inCompleteDayTime, LocalDateTime completeDayTime
                             ) {
@@ -44,5 +57,39 @@ class DateTimeUtilsTest {
 
         assertThat(expiredAtChangeMonth).isEqualTo(completeMonthTime);
         assertThat(expiredAtChangeDay).isEqualTo(completeDayTime);
+    }
+
+    @DisplayName("ZonedDateTime 값을 Date 변환")
+    @ParameterizedTest
+    @MethodSource("provideDateTimeForConversion")
+    void convertZonedDateTimeToDate(LocalDateTime originDateTime, Date expectedDate) {
+        Date actual = DateTimeUtils.convertLocalDateTimeToDate(originDateTime);
+
+        assertThat(actual).isEqualTo(expectedDate);
+    }
+
+    @DisplayName("Date 생성 이후 오차 범위 확인")
+    @Test
+    void generateNotBeforeDate() {
+        LocalDateTime issuedAt = DateTimeUtils.generateIssuedAt();
+        Date notBeforeDate = DateTimeUtils.generateNotBeforeDate();
+
+        Date expectedDate = DateTimeUtils.convertLocalDateTimeToDate(issuedAt);
+
+        System.out.println("notBeforeDate: "+notBeforeDate);
+        System.out.println("expectedDate: "+expectedDate);
+
+        assertThat(notBeforeDate).isAfterOrEqualTo(expectedDate);
+    }
+
+    @DisplayName("현재 JVM에서 사용할 수 있는 유효한 시간 ID 확인")
+    @Test
+    void getAvailableZoneIds() {
+        Set<String> availableZoneIds = DateTimeUtils.getAvailableZoneIds();
+        for (String zoneId : availableZoneIds) {
+            System.out.println(zoneId);
+        }
+
+        assertThat(availableZoneIds).contains("Asia/Seoul");
     }
 }

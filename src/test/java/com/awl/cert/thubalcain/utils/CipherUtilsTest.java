@@ -19,8 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class CipherUtilsTest {
 
-    @Test
     @DisplayName("대칭 키 생성 후 사용된 알고리듬 확인")
+    @Test
     void symmetryGenerateKey() throws NoSuchAlgorithmException {
         SecretKey key = CipherUtils.symmetryGenerateKey();
         String alg = key.getAlgorithm();
@@ -28,8 +28,8 @@ class CipherUtilsTest {
         assertThat(alg).isEqualTo("AES");
     }
 
-    @Test
     @DisplayName("비대칭 키 생성 후 사용된 알고리듬 확인")
+    @Test
     void asymmetryGenerateKey() throws InvalidAlgorithmParameterException,
             NoSuchAlgorithmException, InvalidKeyException {
         KeyPair pair = CipherUtils.asymmetryGenerateKey();
@@ -38,8 +38,8 @@ class CipherUtilsTest {
         assertThat(alg).isEqualTo("EC");
     }
 
-    @Test
     @DisplayName("암/복호화 동작 확인")
+    @Test
     void encryptAndDecrypt() throws NoSuchPaddingException,
             IllegalBlockSizeException, NoSuchAlgorithmException,
             BadPaddingException, InvalidKeyException {

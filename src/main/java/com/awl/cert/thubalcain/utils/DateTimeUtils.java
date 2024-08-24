@@ -4,6 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Set;
 
 @Slf4j
 public class DateTimeUtils {
@@ -51,6 +55,28 @@ public class DateTimeUtils {
         }
 
         return LocalDateTime.of(year, nextMonth, day, hour, min, sec);
+    }
+
+    public static Date convertLocalDateTimeToDate(LocalDateTime dateTime) {
+        return Date.from(dateTime.atZone(ZoneId.of("Asia/Seoul")).toInstant());
+    }
+
+    public static Date generateNotBeforeDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MINUTE, 1);
+
+        return calendar.getTime();
+    }
+    
+    /**
+     * 현재 JVM에서 사용할 수 있는 유효한 시간 ID 확인 기능
+     *
+     * @author ethan
+     * @params 
+     * @return 모든 시간대 ID의 Set 반환
+     **/
+    public static Set<String> getAvailableZoneIds() {
+        return ZoneId.getAvailableZoneIds();
     }
 
     protected DateTimeUtils(){}

@@ -7,6 +7,14 @@ import java.util.Base64;
 
 @Slf4j
 public class Base64UrlDecoderUtils {
+    public static String decodeBase64Url(String base64Url) {
+        String base64 = base64UrlToBase64(base64Url);
+
+        byte[] decoded = Base64.getDecoder().decode(base64);
+
+        return new String(decoded, StandardCharsets.UTF_8);
+    }
+
     private static String base64UrlToBase64(String base64Url) {
         String base64 = base64Url
                 .replace("-", "+")
@@ -18,14 +26,6 @@ public class Base64UrlDecoderUtils {
 
         log.info("패딩 추가 로직 후 결과: {}", base64);
         return base64;
-    }
-
-    public static String decodeBase64Url(String base64Url) {
-        String base64 = base64UrlToBase64(base64Url);
-
-        byte[] decoded = Base64.getDecoder().decode(base64);
-
-        return new String(decoded, StandardCharsets.UTF_8);
     }
 
     protected Base64UrlDecoderUtils() {}
