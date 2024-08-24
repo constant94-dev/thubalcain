@@ -57,10 +57,24 @@ public class DateTimeUtils {
         return LocalDateTime.of(year, nextMonth, day, hour, min, sec);
     }
 
+    /**
+     * LocalDateTime → Date Asia/Seoul 기준으로 변환 기능
+     *
+     * @author ethan
+     * @params 변환 전 LocalDateTime
+     * @return Asia/Seoul 기준 변환 후 Date
+     **/
     public static Date convertLocalDateTimeToDate(LocalDateTime dateTime) {
         return Date.from(dateTime.atZone(ZoneId.of("Asia/Seoul")).toInstant());
     }
 
+    /**
+     * 현재 시간 기준 1분 후 Date 객체 생성 기능
+     *
+     * @author ethan
+     * @params 
+     * @return 현재 시간 기준 1분 후 반환
+     **/
     public static Date generateNotBeforeDate() {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, 1);

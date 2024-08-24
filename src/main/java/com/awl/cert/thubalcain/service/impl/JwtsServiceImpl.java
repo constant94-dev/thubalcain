@@ -25,7 +25,7 @@ public class JwtsServiceImpl implements JwtsService {
     private final KeyAlgorithm<Password, Password> ALG = Jwts.KEY.PBES2_HS512_A256KW;
     private final AeadAlgorithm ENC = Jwts.ENC.A256CBC_HS512;
     @Value("${token.issuer}")
-    private String iss;
+    private String iss; // 발급자의 URL or 이름
 
     /**
      * 토큰 요청 전 인가코드 발급
