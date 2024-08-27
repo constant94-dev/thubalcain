@@ -1,36 +1,68 @@
 package com.awl.cert.thubalcain.service;
 
+import com.awl.cert.thubalcain.service.dto.RequestTokenDTO;
+import com.awl.cert.thubalcain.service.impl.JwtsServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.security.NoSuchAlgorithmException;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(MockitoExtension.class)
 class JwtsServiceTest {
-    @Mock
     private JwtsService jwtsService;
 
-    @DisplayName("jwe 생성을 위한 SecretKey 생성 확인")
-    @ParameterizedTest
-    @ValueSource(strings = {"123456789"})
-    void createAuthorizeCode(String password) throws NoSuchAlgorithmException {
-        Mockito.when(jwtsService.createAuthorizeCode(password)).thenReturn("authorizecode");
-
-        String result = jwtsService.createAuthorizeCode(password);
-        String expected = "authorizecode";
-
-        assertThat(result).isEqualTo(expected);
+    @BeforeEach
+    void setUp() {
+        jwtsService = new JwtsServiceImpl();
     }
 
-    @Test
-    void createJWE() {
+    private static Stream<RequestTokenDTO> provideTokenDTO() {
+        String email = "test@gmail.com";
+        String name = "testName0827";
+        String aud = "testAud0827";
+
+        return Stream.of(
+                RequestTokenDTO.builder()
+                        .email(email)
+                        .name(name)
+                        .aud(aud)
+                        .build()
+        );
+    }
+
+    @DisplayName("인가 코드 발급 확인")
+    @ParameterizedTest
+    @ValueSource(strings = {"123456789"})
+    void createAuthorizeCode(String password) {
+        String result = jwtsService.createAuthorizeCode(password);
+
+        /* Base64 인코딩 원리
+        * Base64는 6비트 단위로 데이터를 인코딩하여 ASCII 문자열로 표현
+        * 이 과정에서 패딩 문자(=)가 추가
+        * createAuthorizeCode() 내부에서 동작하는 SHA-256 해시 함수는 항상 32바이트(256비트) 길이의 해시 값을 생성
+        * 아래와 같은 계산이 이루어짐
+        * 256비트 / 6비트 = 42.666… → 43 (올림) + 패딩 1 = 44바이트
+        * */
+        double encodedSize = (double) 256 / 6;
+        int expectedSize = (int) Math.ceil(encodedSize) + 1;
+
+        assertThat(result).hasSize(expectedSize);
+    }
+
+    @DisplayName("JWE 토큰 발급 확인")
+    @ParameterizedTest
+    @MethodSource("provideTokenDTO")
+    void createJWE(RequestTokenDTO tokenDTO) {
+        String authCode = jwtsService.createAuthorizeCode("123456");
+        tokenDTO.updateAuthCode(authCode);
+        String jwe = jwtsService.createJWE(tokenDTO);
+
+        String[] parts = jwe.split("\\.");
+
+        assertThat(parts).hasSize(5);
     }
 }
