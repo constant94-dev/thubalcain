@@ -2,6 +2,7 @@ package com.awl.cert.thubalcain.service.impl;
 
 import com.awl.cert.thubalcain.service.JwtsService;
 import com.awl.cert.thubalcain.service.dto.RequestTokenDTO;
+import com.awl.cert.thubalcain.utils.CipherUtils;
 import com.awl.cert.thubalcain.utils.DateTimeUtils;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.AeadAlgorithm;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Map;
 
@@ -36,9 +38,12 @@ public class JwtsServiceImpl implements JwtsService {
      **/
     @Override
     public String createAuthorizeCode(String password) {
+        byte[] salt = CipherUtils.generateSalt();
+        String adjustedPassword = password + Base64.getEncoder().encodeToString(salt);
+
         final String code;
         try {
-            code = hashWithSHA512(password);
+            code = hashWithSHA512(adjustedPassword);
         } catch (NoSuchAlgorithmException e) {
             return "Hashing 알고리듬을 찾을 수 없습니다.";
         }

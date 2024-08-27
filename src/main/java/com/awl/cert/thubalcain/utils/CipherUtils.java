@@ -86,5 +86,14 @@ public class CipherUtils {
         return Base64.getEncoder().encodeToString(bytes);
     }
 
+    public static byte[] generateSalt() {
+        SecureRandom secureRandom = new SecureRandom(); // 보안 처리된 무작위 수 생성 객체
+        byte[] salt = new byte[16];
+
+        secureRandom.nextBytes(salt);
+
+        return salt;
+    }
+
     protected CipherUtils(){}
 }

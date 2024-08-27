@@ -64,4 +64,12 @@ class CipherUtilsTest {
 
         assertThat(Objects.equals(originHash, otherHash)).isFalse();
     }
+
+    @DisplayName("평문 암호에 추가되는 salt 값 생성 확인")
+    @Test
+    void generateSalt() {
+        byte[] salt = CipherUtils.generateSalt();
+
+        assertThat(salt).hasSize(16);
+    }
 }
