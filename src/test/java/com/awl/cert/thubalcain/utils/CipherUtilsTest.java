@@ -13,7 +13,8 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
-import java.util.Objects;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -58,11 +59,11 @@ class CipherUtilsTest {
     @DisplayName("서로 다른 비밀번호 일치 여부")
     @ParameterizedTest
     @CsvSource(value = {"123456, 12345", "password1, password2"})
-    void hashWithSHA512(String originCode, String otherCode) throws NoSuchAlgorithmException {
-        String originHash = CipherUtils.hashWithSHA512(originCode);
-        String otherHash = CipherUtils.hashWithSHA512(otherCode);
+    void hashWithSHA256(String originCode, String otherCode) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        byte[] originHash = CipherUtils.hashWithSHA256(originCode);
+        byte[] otherHash = CipherUtils.hashWithSHA256(otherCode);
 
-        assertThat(Objects.equals(originHash, otherHash)).isFalse();
+        assertThat(Arrays.equals(originHash, otherHash)).isFalse();
     }
 
     @DisplayName("평문 암호에 추가되는 salt 값 생성 확인")

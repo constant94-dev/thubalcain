@@ -3,8 +3,10 @@ package com.awl.cert.thubalcain.utils;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.*;
+import javax.crypto.spec.PBEKeySpec;
 import java.security.*;
 import java.security.spec.ECGenParameterSpec;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Base64;
 
 @Slf4j
@@ -72,20 +74,27 @@ public class CipherUtils {
     }
 
     /**
-     * MessageDigest 사용해 byte[] 생성 후 Base64 인코딩 기능
+     * PBEKeySpec 사용해 비밀번호 기반 해싱 후 인코딩 기능
      *
      * @author ethan
      * @params 해싱할 코드 값
-     * @return SHA-512 해싱 후 Base64 인코딩 값 반환
+     * @return SHA-256 해싱 후 byte[] 인코딩 값 반환
      **/
-    public static String hashWithSHA512(String code) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("SHA-512");
+    public static byte[] hashWithSHA256(String code) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        byte[] salt = CipherUtils.generateSalt();
+        PBEKeySpec spec = new PBEKeySpec(code.toCharArray(), salt, 65536, 256);
+        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
 
-        byte[] bytes = md.digest(code.getBytes());
-
-        return Base64.getEncoder().encodeToString(bytes);
+        return factory.generateSecret(spec).getEncoded();
     }
 
+    /**
+     * SecureRandom 사용해 보안 처리 된 무작위 수 생성 기능
+     *
+     * @author ethan
+     * @params
+     * @return SecureRandom 16바이트 무작위 수 반환
+     **/
     public static byte[] generateSalt() {
         SecureRandom secureRandom = new SecureRandom(); // 보안 처리된 무작위 수 생성 객체
         byte[] salt = new byte[16];
