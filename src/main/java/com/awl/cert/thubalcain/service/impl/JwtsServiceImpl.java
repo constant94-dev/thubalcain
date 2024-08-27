@@ -1,5 +1,6 @@
 package com.awl.cert.thubalcain.service.impl;
 
+import com.awl.cert.thubalcain.controller.api.dto.RequestAuthorizeDTO;
 import com.awl.cert.thubalcain.service.JwtsService;
 import com.awl.cert.thubalcain.service.dto.RequestTokenDTO;
 import com.awl.cert.thubalcain.utils.DateTimeUtils;
@@ -37,9 +38,9 @@ public class JwtsServiceImpl implements JwtsService {
      * @return cipher string
      **/
     @Override
-    public String createAuthorizeCode(String password) {
+    public String createAuthorizeCode(RequestAuthorizeDTO requestAuthorizeDTO) {
         try {
-            final byte[] code = hashWithSHA256(password);
+            final byte[] code = hashWithSHA256(requestAuthorizeDTO.password());
             return Base64.encodeBase64String(code);
         } catch (NoSuchAlgorithmException e) {
             return "Hashing 알고리듬을 찾을 수 없습니다.";
@@ -56,7 +57,7 @@ public class JwtsServiceImpl implements JwtsService {
      * @return Encrypted JWT
      **/
     @Override
-    public String createJWE(RequestTokenDTO requestTokenDTO) {
+    public String createJWE(RequestTokenDTO.Request requestTokenDTO) {
         return Jwts.builder()
                 .header()
                     .add(createHeader())
@@ -70,7 +71,7 @@ public class JwtsServiceImpl implements JwtsService {
         return Keys.password(code.toCharArray());
     }
 
-    private Map<String, ?> createClaim(RequestTokenDTO requestTokenDTO) {
+    private Map<String, ?> createClaim(RequestTokenDTO.Request requestTokenDTO) {
         LocalDateTime issuedAt = DateTimeUtils.generateIssuedAt();
         LocalDateTime expiredAt = DateTimeUtils.generateExpiredAt(issuedAt);
         Date issuedDate = DateTimeUtils.convertLocalDateTimeToDate(issuedAt);

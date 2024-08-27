@@ -1,12 +1,13 @@
 package com.awl.cert.thubalcain.service;
 
+import com.awl.cert.thubalcain.controller.api.dto.RequestAuthorizeDTO;
 import com.awl.cert.thubalcain.service.dto.RequestTokenDTO;
 import com.awl.cert.thubalcain.service.impl.JwtsServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.stream.Stream;
 
@@ -20,13 +21,13 @@ class JwtsServiceTest {
         jwtsService = new JwtsServiceImpl();
     }
 
-    private static Stream<RequestTokenDTO> provideTokenDTO() {
+    private static Stream<RequestTokenDTO.Request> provideTokenDTO() {
         String email = "test@gmail.com";
         String name = "testName0827";
         String aud = "testAud0827";
 
         return Stream.of(
-                RequestTokenDTO.builder()
+                RequestTokenDTO.Request.builder()
                         .email(email)
                         .name(name)
                         .aud(aud)
@@ -35,10 +36,9 @@ class JwtsServiceTest {
     }
 
     @DisplayName("인가 코드 발급 확인")
-    @ParameterizedTest
-    @ValueSource(strings = {"123456789"})
-    void createAuthorizeCode(String password) {
-        String result = jwtsService.createAuthorizeCode(password);
+    @Test
+    void createAuthorizeCode() {
+        String result = jwtsService.createAuthorizeCode(new RequestAuthorizeDTO("123456"));
 
         /* Base64 인코딩 원리
         * Base64는 6비트 단위로 데이터를 인코딩하여 ASCII 문자열로 표현
@@ -56,8 +56,8 @@ class JwtsServiceTest {
     @DisplayName("JWE 토큰 발급 확인")
     @ParameterizedTest
     @MethodSource("provideTokenDTO")
-    void createJWE(RequestTokenDTO tokenDTO) {
-        String authCode = jwtsService.createAuthorizeCode("123456");
+    void createJWE(RequestTokenDTO.Request tokenDTO) {
+        String authCode = jwtsService.createAuthorizeCode(new RequestAuthorizeDTO("123456"));
         tokenDTO.updateAuthCode(authCode);
         String jwe = jwtsService.createJWE(tokenDTO);
 
