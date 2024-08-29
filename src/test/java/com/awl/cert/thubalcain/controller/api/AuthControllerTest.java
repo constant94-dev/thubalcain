@@ -39,7 +39,7 @@ class AuthControllerTest {
      *  andExpect(status().isOk()): HTTP 응답의 상태 코드가 200 OK인지 확인.
      *  andExpect(content().string(not(emptyOrNullString()))): 응답 본문이 null이 아니고 빈 문자열이 아닌지를 확인.
      * */
-    @DisplayName("mvc controller 레이어 인가 코드 발급 http 요청")
+    @DisplayName("mvc controller 레이어 검증, 인가 코드 발급 http 요청")
     @Test
     void createAuthorizeCode() throws Exception {
         RequestAuthorizeDTO authorizeDTO = ConverterJsonUtils.readFileToMapper("request/create-authorize-code-request.json", RequestAuthorizeDTO.class);
@@ -53,14 +53,11 @@ class AuthControllerTest {
                 .andExpect(content().string(not(emptyOrNullString())));
     }
 
-    @DisplayName("mvc controller 레이어 인증 토큰 발급 http 요청")
+    @DisplayName("mvc controller 레이어 검증, 인증 토큰 발급 http 요청")
     @Test
     void createJWE() throws Exception {
         RequestTokenDTO.Request tokenDTO = ConverterJsonUtils.readFileToMapper("request/create-jwt-encrypted-request.json", RequestTokenDTO.Request.class);
 
-        log.info("인증 토큰 발급 request: {}", tokenDTO);
-
-        /* FIXME when() 구문 실행 시 주소 비교 달라짐 */
         when(jwtsService.createJWE(any(RequestTokenDTO.Request.class))).thenReturn("jwe_token");
 
         MvcResult result = mockMvc.perform(post("/api/auth/create/jwe")
