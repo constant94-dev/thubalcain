@@ -1,5 +1,6 @@
 package com.awl.cert.thubalcain.service.impl;
 
+import com.awl.cert.thubalcain.common.ErrorCode;
 import com.awl.cert.thubalcain.controller.api.dto.RequestAuthorizeDTO;
 import com.awl.cert.thubalcain.service.JwtsService;
 import com.awl.cert.thubalcain.service.dto.RequestTokenDTO;
@@ -32,10 +33,10 @@ public class JwtsServiceImpl implements JwtsService {
 
     /**
      * 토큰 요청 전 인가코드 발급
-     * 
+     *
+     * @return cipher string
      * @author ethan
      * @params password
-     * @return cipher string
      **/
     @Override
     public String createAuthorizeCode(RequestAuthorizeDTO requestAuthorizeDTO) {
@@ -43,9 +44,9 @@ public class JwtsServiceImpl implements JwtsService {
             final byte[] code = hashWithSHA256(requestAuthorizeDTO.password());
             return Base64.encodeBase64String(code);
         } catch (NoSuchAlgorithmException e) {
-            return "Hashing 알고리듬을 찾을 수 없습니다.";
+            return ErrorCode.NO_SUCH_ALGORITHM.getReason();
         } catch (InvalidKeySpecException e) {
-            return "유효하지 않은 KeySpec 입니다.";
+            return ErrorCode.INVALID_KEY_SPEC.getReason();
         }
     }
 
