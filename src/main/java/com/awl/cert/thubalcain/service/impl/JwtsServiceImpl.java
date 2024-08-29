@@ -34,9 +34,9 @@ public class JwtsServiceImpl implements JwtsService {
     /**
      * 토큰 요청 전 인가코드 발급
      *
-     * @return cipher string
      * @author ethan
-     * @params password
+     * @params authorize dto (password)
+     * @return Authorize Code
      **/
     @Override
     public String createAuthorizeCode(RequestAuthorizeDTO requestAuthorizeDTO) {
@@ -54,7 +54,7 @@ public class JwtsServiceImpl implements JwtsService {
      * 인가코드를 바탕으로 토큰 생성
      *
      * @author ethan
-     * @params athorizae code
+     * @params token request dto (email, name, aud, authCode)
      * @return Encrypted JWT
      **/
     @Override
