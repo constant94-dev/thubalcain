@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
@@ -80,6 +81,18 @@ public class DateTimeUtils {
         calendar.add(Calendar.MINUTE, 1);
 
         return calendar.getTime();
+    }
+
+    /**
+     * LocalDateTime 객체 값을 문자열 변환 기능
+     *
+     * @author ethan
+     * @params 변환 전 LocalDateTime
+     * @return yyyy-MM-dd HH:mm:ss 패턴 변환 후 String
+     **/
+    public static String convertLocalDateTimeToString(LocalDateTime dateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return dateTime.format(formatter);
     }
     
     /**

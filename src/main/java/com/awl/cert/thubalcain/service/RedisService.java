@@ -1,31 +1,13 @@
 package com.awl.cert.thubalcain.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Service;
+import com.awl.cert.thubalcain.controller.api.dto.RequestAuthorizeDTO;
+import com.awl.cert.thubalcain.controller.api.dto.RequestSessionDTO;
+import jakarta.servlet.http.HttpSession;
 
-@Service
-@RequiredArgsConstructor
-public class RedisService {
-    private final RedisTemplate<String, Object> redisTemplate;
+import java.util.Map;
 
-    public void save(String key, Object value) {
-        redisTemplate.opsForValue().set(key, value);
-    }
+public interface RedisService {
+    void addAuthorizeCodeSession(String response, RequestAuthorizeDTO requestAuthorizeDTO, HttpSession httpSession);
 
-    public Object find(String key) {
-        return redisTemplate.opsForValue().get(key);
-    }
-    
-    public void updateValue(String key, Object value) {
-        redisTemplate.opsForValue().set(key, value);
-    }
-
-    public void deleteValue(String key) {
-        redisTemplate.delete(key);
-    }
-
-    public Boolean hasKey(String key) {
-        return redisTemplate.hasKey(key);
-    }
+    Map<Object, Object> findUserSession(RequestSessionDTO.Request req);
 }
