@@ -1,8 +1,8 @@
 package com.awl.cert.thubalcain.controller.api;
 
 import com.awl.cert.thubalcain.controller.api.dto.RequestAuthorizeDTO;
+import com.awl.cert.thubalcain.controller.api.dto.RequestTokenDTO;
 import com.awl.cert.thubalcain.service.JwtsService;
-import com.awl.cert.thubalcain.service.dto.RequestTokenDTO;
 import com.awl.cert.thubalcain.utils.ConverterJsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;

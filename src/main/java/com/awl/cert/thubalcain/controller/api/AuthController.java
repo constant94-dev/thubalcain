@@ -1,9 +1,11 @@
 package com.awl.cert.thubalcain.controller.api;
 
 import com.awl.cert.thubalcain.controller.api.dto.RequestAuthorizeDTO;
+import com.awl.cert.thubalcain.controller.api.dto.RequestTokenDTO;
 import com.awl.cert.thubalcain.controller.response.ApiResponse;
 import com.awl.cert.thubalcain.service.JwtsService;
-import com.awl.cert.thubalcain.service.dto.RequestTokenDTO;
+import com.awl.cert.thubalcain.service.RedisService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,18 +25,24 @@ import static com.awl.cert.thubalcain.common.ErrorCode.NO_SUCH_ALGORITHM;
 @RequiredArgsConstructor
 public class AuthController {
     private final JwtsService jwtsService;
+    private final RedisService redisService;
 
     @PostMapping("/create/code")
-    public ResponseEntity<ApiResponse<?>> createAuthorizeCode(@Valid @RequestBody RequestAuthorizeDTO requestAuthorizeDTO) {
+    public ResponseEntity<ApiResponse<Object>> createAuthorizeCode(
+            @Valid @RequestBody RequestAuthorizeDTO requestAuthorizeDTO,
+            HttpSession httpSession
+    ) {
         String response = jwtsService.createAuthorizeCode(requestAuthorizeDTO);
         if (NO_SUCH_ALGORITHM.getReason().equals(response) || INVALID_KEY_SPEC.getReason().equals(response)) {
             return new ResponseEntity<>(ApiResponse.error(response), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+        redisService.addAuthorizeCodeSession(response, requestAuthorizeDTO, httpSession);
         return new ResponseEntity<>(ApiResponse.success("인가 코드 발급 성공.", response), HttpStatus.OK);
     }
 
     @PostMapping("/create/jwe")
-    public ResponseEntity<ApiResponse<?>> createJWE(@Valid @RequestBody RequestTokenDTO.Request requestTokenDTO) {
+    public ResponseEntity<ApiResponse<Object>> createJWE(@Valid @RequestBody RequestTokenDTO.Request requestTokenDTO) {
         String response = jwtsService.createJWE(requestTokenDTO);
         if (response.isBlank()) {
             return new ResponseEntity<>(ApiResponse.error(response), HttpStatus.INTERNAL_SERVER_ERROR);

@@ -2,8 +2,8 @@ package com.awl.cert.thubalcain.service.impl;
 
 import com.awl.cert.thubalcain.common.ErrorCode;
 import com.awl.cert.thubalcain.controller.api.dto.RequestAuthorizeDTO;
+import com.awl.cert.thubalcain.controller.api.dto.RequestTokenDTO;
 import com.awl.cert.thubalcain.service.JwtsService;
-import com.awl.cert.thubalcain.service.dto.RequestTokenDTO;
 import com.awl.cert.thubalcain.utils.DateTimeUtils;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.AeadAlgorithm;

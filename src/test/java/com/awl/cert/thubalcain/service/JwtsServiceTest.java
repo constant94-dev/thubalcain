@@ -1,7 +1,7 @@
 package com.awl.cert.thubalcain.service;
 
 import com.awl.cert.thubalcain.controller.api.dto.RequestAuthorizeDTO;
-import com.awl.cert.thubalcain.service.dto.RequestTokenDTO;
+import com.awl.cert.thubalcain.controller.api.dto.RequestTokenDTO;
 import com.awl.cert.thubalcain.service.impl.JwtsServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +38,7 @@ class JwtsServiceTest {
     @DisplayName("인가 코드 발급 확인")
     @Test
     void createAuthorizeCode() {
-        String result = jwtsService.createAuthorizeCode(new RequestAuthorizeDTO("123456"));
+        String result = jwtsService.createAuthorizeCode(new RequestAuthorizeDTO("test@gmail.com","123456"));
 
         /* Base64 인코딩 원리
         * Base64는 6비트 단위로 데이터를 인코딩하여 ASCII 문자열로 표현
@@ -57,7 +57,7 @@ class JwtsServiceTest {
     @ParameterizedTest
     @MethodSource("provideTokenDTO")
     void createJWE(RequestTokenDTO.Request tokenDTO) {
-        String authCode = jwtsService.createAuthorizeCode(new RequestAuthorizeDTO("123456"));
+        String authCode = jwtsService.createAuthorizeCode(new RequestAuthorizeDTO("test@gmail.com","123456"));
         tokenDTO.updateAuthCode(authCode);
         String jwe = jwtsService.createJWE(tokenDTO);
 
