@@ -27,6 +27,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.google.api-client:google-api-client:2.6.0")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation("org.springframework.session:spring-session-data-redis")
 	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 
