@@ -1,7 +1,9 @@
 package com.awl.cert.thubalcain.controller.response;
 
+import lombok.Getter;
 import lombok.ToString;
 
+@Getter
 @ToString
 public class ApiResponse<T> {
     private String message;
