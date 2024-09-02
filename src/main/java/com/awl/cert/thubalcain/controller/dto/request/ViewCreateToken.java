@@ -1,10 +1,10 @@
-package com.awl.cert.thubalcain.controller.api.dto;
+package com.awl.cert.thubalcain.controller.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-public class RequestTokenDTO {
+public class ViewCreateToken {
 
     @Getter
     @Builder
@@ -27,5 +27,5 @@ public class RequestTokenDTO {
         }
     }
 
-    protected RequestTokenDTO(){}
+    protected ViewCreateToken(){}
 }

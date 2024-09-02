@@ -1,7 +1,7 @@
 package com.awl.cert.thubalcain.controller.api;
 
-import com.awl.cert.thubalcain.controller.api.dto.RequestAuthorizeDTO;
-import com.awl.cert.thubalcain.controller.api.dto.RequestTokenDTO;
+import com.awl.cert.thubalcain.controller.dto.request.ViewCreateToken;
+import com.awl.cert.thubalcain.controller.vo.request.CreateAuthorizeRequest;
 import com.awl.cert.thubalcain.service.JwtsService;
 import com.awl.cert.thubalcain.utils.ConverterJsonUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +42,7 @@ class AuthControllerTest {
     @DisplayName("mvc controller 레이어 검증, 인가 코드 발급 http 요청")
     @Test
     void createAuthorizeCode() throws Exception {
-        RequestAuthorizeDTO authorizeDTO = ConverterJsonUtils.readFileToMapper("request/create-authorize-code-request.json", RequestAuthorizeDTO.class);
+        CreateAuthorizeRequest authorizeDTO = ConverterJsonUtils.readFileToMapper("request/create-authorize-code-request.json", CreateAuthorizeRequest.class);
 
         when(jwtsService.createAuthorizeCode(authorizeDTO)).thenReturn("authorize_code");
 
@@ -56,9 +56,9 @@ class AuthControllerTest {
     @DisplayName("mvc controller 레이어 검증, 인증 토큰 발급 http 요청")
     @Test
     void createJWE() throws Exception {
-        RequestTokenDTO.Request tokenDTO = ConverterJsonUtils.readFileToMapper("request/create-jwt-encrypted-request.json", RequestTokenDTO.Request.class);
+        ViewCreateToken.Request tokenDTO = ConverterJsonUtils.readFileToMapper("request/create-jwt-encrypted-request.json", ViewCreateToken.Request.class);
 
-        when(jwtsService.createJWE(any(RequestTokenDTO.Request.class))).thenReturn("jwe_token");
+        when(jwtsService.createJWE(any(ViewCreateToken.Request.class))).thenReturn("jwe_token");
 
         MvcResult result = mockMvc.perform(post("/api/auth/create/jwe")
                         .contentType(MediaType.APPLICATION_JSON)

@@ -1,6 +1,6 @@
 package com.awl.cert.thubalcain.controller.api;
 
-import com.awl.cert.thubalcain.controller.api.dto.RequestSessionDTO;
+import com.awl.cert.thubalcain.controller.dto.request.ViewCreateSession;
 import com.awl.cert.thubalcain.controller.response.ApiResponse;
 import com.awl.cert.thubalcain.service.RedisService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class RedisSessionController {
     private final RedisService redisService;
 
     @PostMapping("/find")
-    public ResponseEntity<ApiResponse<Object>> find(@RequestBody RequestSessionDTO.Request req) {
+    public ResponseEntity<ApiResponse<Object>> find(@RequestBody ViewCreateSession.Request req) {
         log.info("request 확인: {}", req);
 
         Map<Object, Object> response = redisService.findUserSession(req);

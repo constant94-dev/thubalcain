@@ -1,7 +1,7 @@
 package com.awl.cert.thubalcain.controller.api;
 
-import com.awl.cert.thubalcain.controller.api.dto.UpdateRedisDTO;
-import com.awl.cert.thubalcain.service.RedisCRUDTestService;
+import com.awl.cert.thubalcain.controller.dto.request.ViewUpdateRedisCRUD;
+import com.awl.cert.thubalcain.service.RedisCRUDService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,29 +9,29 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/redis")
 @RequiredArgsConstructor
 public class RedisCRUDController {
-    private final RedisCRUDTestService redisCRUDTestService;
+    private final RedisCRUDService redisCRUDService;
 
     @PostMapping("/save")
     public String save(@RequestParam String key, @RequestParam String value) {
-        redisCRUDTestService.save(key, value);
+        redisCRUDService.save(key, value);
         return "Saved";
     }
 
     @GetMapping("/get")
     public String find(@RequestParam String key) {
-        return (String) redisCRUDTestService.find(key);
+        return (String) redisCRUDService.find(key);
     }
 
     @PutMapping("/update")
-    public String update(@RequestBody UpdateRedisDTO updateDTO) {
-        redisCRUDTestService.updateValue(updateDTO.getKey(), updateDTO.getValue());
+    public String update(@RequestBody ViewUpdateRedisCRUD updateDTO) {
+        redisCRUDService.updateValue(updateDTO.getKey(), updateDTO.getValue());
         return "Updated";
     }
 
     @DeleteMapping("/delete")
     public String delete(@RequestParam String key) {
-        if (redisCRUDTestService.hasKey(key)) {
-            redisCRUDTestService.deleteValue(key);
+        if (redisCRUDService.hasKey(key)) {
+            redisCRUDService.deleteValue(key);
             return "Deleted";
         }
         return "Not Deleted";

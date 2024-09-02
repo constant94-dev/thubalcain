@@ -1,6 +1,6 @@
 package com.awl.cert.thubalcain.service;
 
-import com.awl.cert.thubalcain.controller.api.dto.RequestAuthorizeDTO;
+import com.awl.cert.thubalcain.controller.vo.request.CreateAuthorizeRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class RedisCRUDTestService {
+public class RedisCRUDService {
     private final RedisTemplate<String, Object> redisTemplate;
 
     public void save(String key, Object value) {
@@ -35,8 +35,8 @@ public class RedisCRUDTestService {
         redisTemplate.opsForHash().put("","","");
     }
 
-    public void addAuthorizeCodeSession(String response, RequestAuthorizeDTO requestAuthorizeDTO, HttpSession httpSession) {
+    public void addAuthorizeCodeSession(String response, CreateAuthorizeRequest createAuthorizeRequest, HttpSession httpSession) {
 
-        httpSession.setAttribute(requestAuthorizeDTO.email(), response);
+        httpSession.setAttribute(createAuthorizeRequest.email(), response);
     }
 }

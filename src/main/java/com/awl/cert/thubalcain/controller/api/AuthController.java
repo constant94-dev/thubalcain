@@ -1,8 +1,8 @@
 package com.awl.cert.thubalcain.controller.api;
 
-import com.awl.cert.thubalcain.controller.api.dto.RequestAuthorizeDTO;
-import com.awl.cert.thubalcain.controller.api.dto.RequestTokenDTO;
+import com.awl.cert.thubalcain.controller.dto.request.ViewCreateToken;
 import com.awl.cert.thubalcain.controller.response.ApiResponse;
+import com.awl.cert.thubalcain.controller.vo.request.CreateAuthorizeRequest;
 import com.awl.cert.thubalcain.service.JwtsService;
 import com.awl.cert.thubalcain.service.RedisService;
 import jakarta.servlet.http.HttpSession;
@@ -29,20 +29,20 @@ public class AuthController {
 
     @PostMapping("/create/code")
     public ResponseEntity<ApiResponse<Object>> createAuthorizeCode(
-            @Valid @RequestBody RequestAuthorizeDTO requestAuthorizeDTO,
+            @Valid @RequestBody CreateAuthorizeRequest createAuthorizeRequest,
             HttpSession httpSession
     ) {
-        String response = jwtsService.createAuthorizeCode(requestAuthorizeDTO);
+        String response = jwtsService.createAuthorizeCode(createAuthorizeRequest);
         if (NO_SUCH_ALGORITHM.getReason().equals(response) || INVALID_KEY_SPEC.getReason().equals(response)) {
             return new ResponseEntity<>(ApiResponse.error(response), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        redisService.addAuthorizeCodeSession(response, requestAuthorizeDTO, httpSession);
+        redisService.addAuthorizeCodeSession(response, createAuthorizeRequest, httpSession);
         return new ResponseEntity<>(ApiResponse.success("인가 코드 발급 성공.", response), HttpStatus.OK);
     }
 
     @PostMapping("/create/jwe")
-    public ResponseEntity<ApiResponse<Object>> createJWE(@Valid @RequestBody RequestTokenDTO.Request requestTokenDTO) {
+    public ResponseEntity<ApiResponse<Object>> createJWE(@Valid @RequestBody ViewCreateToken.Request requestTokenDTO) {
         String response = jwtsService.createJWE(requestTokenDTO);
         if (response.isBlank()) {
             return new ResponseEntity<>(ApiResponse.error(response), HttpStatus.INTERNAL_SERVER_ERROR);

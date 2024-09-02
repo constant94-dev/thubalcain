@@ -1,7 +1,7 @@
 package com.awl.cert.thubalcain.service.impl;
 
-import com.awl.cert.thubalcain.controller.api.dto.RequestAuthorizeDTO;
-import com.awl.cert.thubalcain.controller.api.dto.RequestSessionDTO;
+import com.awl.cert.thubalcain.controller.dto.request.ViewCreateSession;
+import com.awl.cert.thubalcain.controller.vo.request.CreateAuthorizeRequest;
 import com.awl.cert.thubalcain.service.RedisService;
 import com.awl.cert.thubalcain.utils.DateTimeUtils;
 import jakarta.servlet.http.HttpSession;
@@ -22,7 +22,7 @@ public class RedisServiceImpl implements RedisService {
     private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
-    public void addAuthorizeCodeSession(String response, RequestAuthorizeDTO requestAuthorizeDTO, HttpSession httpSession) {
+    public void addAuthorizeCodeSession(String response, CreateAuthorizeRequest createAuthorizeRequest, HttpSession httpSession) {
         Map<String, Object> mapToSession = new HashMap<>();
 
         LocalDateTime currentTime = DateTimeUtils.generateIssuedAt();
@@ -36,7 +36,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public Map<Object, Object> findUserSession(RequestSessionDTO.Request req) {
+    public Map<Object, Object> findUserSession(ViewCreateSession.Request req) {
         return redisTemplate.opsForHash().entries(req.getKey());
     }
 }

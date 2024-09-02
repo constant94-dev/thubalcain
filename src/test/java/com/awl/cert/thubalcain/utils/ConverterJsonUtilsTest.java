@@ -1,6 +1,6 @@
 package com.awl.cert.thubalcain.utils;
 
-import com.awl.cert.thubalcain.controller.api.dto.RequestAuthorizeDTO;
+import com.awl.cert.thubalcain.controller.vo.request.CreateAuthorizeRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ class ConverterJsonUtilsTest {
     @DisplayName("JSON 파일을 읽어 객체로 변환하는 기능 확인")
     @Test
     void readFileToMapper() {
-        RequestAuthorizeDTO authorizeDTO = ConverterJsonUtils.readFileToMapper("request/create-authorize-code-request.json", RequestAuthorizeDTO.class);
+        CreateAuthorizeRequest authorizeDTO = ConverterJsonUtils.readFileToMapper("request/create-authorize-code-request.json", CreateAuthorizeRequest.class);
 
         assertThat(authorizeDTO.password()).isEqualTo("123456");
     }
@@ -23,7 +23,7 @@ class ConverterJsonUtilsTest {
     @ParameterizedTest
     @ValueSource(strings = {"123456"})
     void writeToJsonString(String password) throws JsonProcessingException {
-        RequestAuthorizeDTO authorizeDTO = new RequestAuthorizeDTO(password);
+        CreateAuthorizeRequest authorizeDTO = new CreateAuthorizeRequest("test@gmail.com",password);
 
         String actual = ConverterJsonUtils.writeToJsonString(authorizeDTO);
         String expected = "{\"password\":\"123456\"}";

@@ -1,9 +1,9 @@
-package com.awl.cert.thubalcain.controller.api.dto;
+package com.awl.cert.thubalcain.controller.dto.request;
 
 import lombok.Getter;
 import lombok.ToString;
 
-public class RequestSessionDTO {
+public class ViewCreateSession {
 
     @Getter
     @ToString

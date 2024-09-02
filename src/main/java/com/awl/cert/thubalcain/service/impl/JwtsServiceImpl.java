@@ -1,8 +1,8 @@
 package com.awl.cert.thubalcain.service.impl;
 
 import com.awl.cert.thubalcain.common.ErrorCode;
-import com.awl.cert.thubalcain.controller.api.dto.RequestAuthorizeDTO;
-import com.awl.cert.thubalcain.controller.api.dto.RequestTokenDTO;
+import com.awl.cert.thubalcain.controller.dto.request.ViewCreateToken;
+import com.awl.cert.thubalcain.controller.vo.request.CreateAuthorizeRequest;
 import com.awl.cert.thubalcain.service.JwtsService;
 import com.awl.cert.thubalcain.utils.DateTimeUtils;
 import io.jsonwebtoken.Jwts;
@@ -39,9 +39,9 @@ public class JwtsServiceImpl implements JwtsService {
      * @return Authorize Code
      **/
     @Override
-    public String createAuthorizeCode(RequestAuthorizeDTO requestAuthorizeDTO) {
+    public String createAuthorizeCode(CreateAuthorizeRequest createAuthorizeRequest) {
         try {
-            final byte[] code = hashWithSHA256(requestAuthorizeDTO.password());
+            final byte[] code = hashWithSHA256(createAuthorizeRequest.password());
             return Base64.encodeBase64String(code);
         } catch (NoSuchAlgorithmException e) {
             return ErrorCode.NO_SUCH_ALGORITHM.getReason();
@@ -58,7 +58,7 @@ public class JwtsServiceImpl implements JwtsService {
      * @return Encrypted JWT
      **/
     @Override
-    public String createJWE(RequestTokenDTO.Request requestTokenDTO) {
+    public String createJWE(ViewCreateToken.Request requestTokenDTO) {
         return Jwts.builder()
                 .header()
                     .add(createHeader())
@@ -72,7 +72,7 @@ public class JwtsServiceImpl implements JwtsService {
         return Keys.password(code.toCharArray());
     }
 
-    private Map<String, ?> createClaim(RequestTokenDTO.Request requestTokenDTO) {
+    private Map<String, ?> createClaim(ViewCreateToken.Request requestTokenDTO) {
         LocalDateTime issuedAt = DateTimeUtils.generateIssuedAt();
         LocalDateTime expiredAt = DateTimeUtils.generateExpiredAt(issuedAt);
         Date issuedDate = DateTimeUtils.convertLocalDateTimeToDate(issuedAt);
