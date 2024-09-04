@@ -1,6 +1,6 @@
 package com.awl.cert.thubalcain.controller.api;
 
-import com.awl.cert.thubalcain.controller.dto.request.ViewCreateToken;
+import com.awl.cert.thubalcain.controller.dto.ViewCreateToken;
 import com.awl.cert.thubalcain.controller.vo.request.CreateAuthorizeRequest;
 import com.awl.cert.thubalcain.service.JwtsService;
 import com.awl.cert.thubalcain.utils.ConverterJsonUtils;

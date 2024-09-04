@@ -1,4 +1,4 @@
-package com.awl.cert.thubalcain.controller.response;
+package com.awl.cert.thubalcain.common.response;
 
 import lombok.Getter;
 import lombok.ToString;

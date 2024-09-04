@@ -1,6 +1,6 @@
 package com.awl.cert.thubalcain.service;
 
-import com.awl.cert.thubalcain.controller.dto.request.ViewCreateToken;
+import com.awl.cert.thubalcain.controller.dto.ViewCreateToken;
 import com.awl.cert.thubalcain.controller.vo.request.CreateAuthorizeRequest;
 
 public interface JwtsService {

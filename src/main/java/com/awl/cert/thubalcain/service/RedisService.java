@@ -1,6 +1,6 @@
 package com.awl.cert.thubalcain.service;
 
-import com.awl.cert.thubalcain.controller.dto.request.ViewCreateSession;
+import com.awl.cert.thubalcain.controller.dto.ViewCreateSession;
 import com.awl.cert.thubalcain.controller.vo.request.CreateAuthorizeRequest;
 import jakarta.servlet.http.HttpSession;
 

@@ -1,7 +1,7 @@
 package com.awl.cert.thubalcain.service.impl;
 
 import com.awl.cert.thubalcain.common.ErrorCode;
-import com.awl.cert.thubalcain.controller.dto.request.ViewCreateToken;
+import com.awl.cert.thubalcain.controller.dto.ViewCreateToken;
 import com.awl.cert.thubalcain.controller.vo.request.CreateAuthorizeRequest;
 import com.awl.cert.thubalcain.service.JwtsService;
 import com.awl.cert.thubalcain.utils.DateTimeUtils;
@@ -30,6 +30,8 @@ public class JwtsServiceImpl implements JwtsService {
     private final AeadAlgorithm ENC = Jwts.ENC.A256CBC_HS512;
     @Value("${token.issuer}")
     private String iss; // 발급자의 URL or 이름
+    @Value("${token.audience}")
+    private String aud; // 대상
 
     /**
      * 토큰 요청 전 인가코드 발급
@@ -81,8 +83,8 @@ public class JwtsServiceImpl implements JwtsService {
 
         return Jwts.claims()
                 .issuer(iss) // 발급자
-                .subject(requestTokenDTO.getName()) // 제목
                 .audience().add(requestTokenDTO.getAud()).and() // 대상
+                .subject(requestTokenDTO.getName()) // 제목
                 .expiration(expireDate) // 만료 날짜
                 .notBefore(notBefore) // JWT가 유효해지는 시점 (이 날짜 이전에는 JWT가 유효하지 않음)
                 .issuedAt(issuedDate) // 발급 날짜
