@@ -1,7 +1,7 @@
 package com.awl.cert.thubalcain.controller.api;
 
-import com.awl.cert.thubalcain.controller.dto.request.ViewCreateSession;
-import com.awl.cert.thubalcain.controller.response.ApiResponse;
+import com.awl.cert.thubalcain.common.response.ApiResponse;
+import com.awl.cert.thubalcain.controller.dto.ViewCreateSession;
 import com.awl.cert.thubalcain.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

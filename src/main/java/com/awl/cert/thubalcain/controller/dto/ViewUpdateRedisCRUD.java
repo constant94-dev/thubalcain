@@ -1,4 +1,4 @@
-package com.awl.cert.thubalcain.controller.dto.request;
+package com.awl.cert.thubalcain.controller.dto;
 
 import lombok.Getter;
 

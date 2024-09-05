@@ -1,6 +1,6 @@
 package com.awl.cert.thubalcain.controller.api;
 
-import com.awl.cert.thubalcain.controller.dto.request.ViewUpdateRedisCRUD;
+import com.awl.cert.thubalcain.controller.dto.ViewUpdateRedisCRUD;
 import com.awl.cert.thubalcain.service.RedisCRUDService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

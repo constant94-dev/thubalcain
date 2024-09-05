@@ -10,7 +10,7 @@ import {
     signInWithPhoneNumber,
     signOut
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-import {firebaseConfig} from "../auth/config-firebase.js";
+import {firebaseConfig} from "./config/config-firebase.js";
 
 initializeApp(firebaseConfig);
 

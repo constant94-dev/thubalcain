@@ -74,8 +74,9 @@ Temporary Items
 
 # End of https://www.toptal.com/developers/gitignore/api/macos
 
+# Custom ignore
 *.yml
 third-party
 http
 style
-src/main/resources/static/js/auth/config-firebase.js
+src/main/resources/static/js/config

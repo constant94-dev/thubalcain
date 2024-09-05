@@ -11,5 +11,4 @@ public class ThubalcainApplication {
 		SpringApplication.run(ThubalcainApplication.class, args);
 		log.info("Start App!");
 	}
-
 }

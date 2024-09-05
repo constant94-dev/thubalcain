@@ -1,4 +1,4 @@
-package com.awl.cert.thubalcain.controller.dto.request;
+package com.awl.cert.thubalcain.controller.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
