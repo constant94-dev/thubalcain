@@ -8,23 +8,20 @@ import java.time.LocalDateTime;
 
 @Component
 public class UpdateUserMapper {
-    public User toViewUpdateUserEntity(ViewUpdateUser.Request request) {
+    public void toViewUpdateUserEntity(User updateUser, ViewUpdateUser.Request request) {
         LocalDateTime nowTime = LocalDateTime.now().withNano(0);
-        request.changeUpdateDtm(nowTime);
 
-        return User.builder()
-                .email(request.getEmail())
-                .password(request.getPassword())
-                .userType(request.getUserType())
-                .updateDtm(nowTime)
-                .build();
+        updateUser.changeEmail(request.getEmail());
+        updateUser.changePassword(request.getPassword());
+        updateUser.changeUserType(request.getUserType());
+        updateUser.changeUpdateDtm(nowTime);
     }
 
-    public ViewUpdateUser.Response toViewUpdateUserResponse(ViewUpdateUser.Request request) {
+    public ViewUpdateUser.Response toViewUpdateUserResponse(User updateUser) {
         return ViewUpdateUser.Response.builder()
-                .email(request.getEmail())
-                .userType(request.getUserType())
-                .updateDtm(request.getUpdateDtm())
+                .email(updateUser.getEmail())
+                .userType(updateUser.getUserType())
+                .updateDtm(updateUser.getUpdateDtm())
                 .build();
     }
 }

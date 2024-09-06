@@ -31,6 +31,18 @@ public class User {
     private LocalDateTime updateDtm;
     private LocalDateTime deleteDtm;
 
+    public void changeEmail(String email) {
+        this.email = email;
+    }
+    public void changePassword(String password) {
+        this.password = password;
+    }
+    public void changeUserType(UserType userType) {
+        this.userType = userType;
+    }
+    public void changeUpdateDtm(LocalDateTime updateDtm) {
+        this.updateDtm = updateDtm;
+    }
     public void changeDeleteDtm(LocalDateTime deleteDtm) {
         this.deleteDtm = deleteDtm;
     }

@@ -1,7 +1,9 @@
 package com.awl.cert.thubalcain.domain.entity;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+@Getter
 @RequiredArgsConstructor
 public enum UserType {
     ADMIN("운영자"),
