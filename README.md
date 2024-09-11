@@ -9,7 +9,7 @@
 - 사용자 정보 Redis 저장
 - Local 환경으로만 구성
 
-![feature](intro-img/thubalcain-arch-step1.png)
+![feature](intro-img/thubalcain-arch-step2.png)
 
 <strong> 2차 구상 (작업중...) </strong>
 
